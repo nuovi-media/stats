@@ -66,6 +66,7 @@ class OscavUpdate extends Command
         $updateMovies = $this->option('update-users') ?? false;
         $updateMovies = $this->option('update-ratings') ?? false;
 
+        // Test
         $lboxd = new LetterboxdClient();
 
         return 0;

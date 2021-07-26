@@ -1,17 +1,24 @@
 {
-    "name": "laravel/laravel",
+    "name": "nuovi-media/stats",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
+    "description": "NuoviMedia / Stats",
+    "keywords": ["cinema", "letterboxd"],
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Lorenzo Breda",
+            "email": "lorenzo@lbreda.com"
+        }
+    ],
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
-        "php-tmdb/api": "^4"
+        "php-tmdb/api": "^4",
+        "nuovi-media/laravel-letterboxd": "^0.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
