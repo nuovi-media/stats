@@ -1,6 +1,6 @@
 <?php
 
-/** ACLink
+/** Nuovi Media - Stats
  *
  *  Copyright (C) 2020 Lorenzo Breda <lorenzo@lbreda.com>
  *
@@ -20,28 +20,27 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 use NuoviMedia\LetterboxdClient\LetterboxdClient;
 
-class OscavUpdate extends Command
+class NMInstall extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'oscav:update
-                            {--tag=* : Prefix, multiple supported, default: current year}
-                            {--update-movies : Forces movies update}
-                            {--update-users : Forces users update}
-                            {--update-ratings : Forces ratings update}';
+    protected $signature = 'nm:install';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Imports data from Letterboxd';
+    protected $description = 'Configures the system';
 
     /**
      * Create a new command instance.
@@ -60,14 +59,20 @@ class OscavUpdate extends Command
      */
     public function handle(): int
     {
-        // Parameters
-        $tags = $this->option('tag') ?? [null];
-        $updateMovies = $this->option('update-movies') ?? false;
-        $updateMovies = $this->option('update-users') ?? false;
-        $updateMovies = $this->option('update-ratings') ?? false;
+        $adminEmail = $this->ask("Admin email:");
+        $adminPassword = $this->secret('Admin password:');
+        $adminName = $this->ask('Admin name:');
 
-        // Test
-        $lboxd = new LetterboxdClient();
+        // Creates admin user
+        $user = new User([
+            'name'              => $adminName,
+            'email'             => $adminEmail,
+            'password'          => Hash::make($adminPassword),
+            'email_verified_at' => Carbon::now()->timestamp,
+        ]);
+        $user->save();
+
+        $this->info('System installed');
 
         return 0;
     }
