@@ -15,10 +15,12 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "jeroennoten/laravel-adminlte": "^3.6",
         "laravel/framework": "^8.40",
-        "laravel/tinker": "^2.5",
-        "php-tmdb/api": "^4",
-        "nuovi-media/laravel-letterboxd": "^0.1"
+        "laravel/tinker": "^2.6",
+        "laravel/ui": "^3.3",
+        "nuovi-media/laravel-letterboxd": "^0.1",
+        "php-tmdb/api": "^4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
