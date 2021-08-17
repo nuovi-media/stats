@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Jackiedo\DotenvEditor\DotenvEditorServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -229,6 +230,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        /*
+         * Packages facades
+         */
+        'DotenvEditor' => Jackiedo\DotenvEditor\Facades\DotenvEditor::class,
     ],
 
 ];
