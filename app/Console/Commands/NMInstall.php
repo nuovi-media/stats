@@ -24,7 +24,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
-use NuoviMedia\LetterboxdClient\LetterboxdClient;
+use Jackiedo\DotenvEditor\Facades\DotenvEditor;
 
 class NMInstall extends Command
 {
@@ -59,11 +59,44 @@ class NMInstall extends Command
      */
     public function handle(): int
     {
+        $env = DotenvEditor::load();
+
+        $this->line('Application settings:');
+        $this->call('key:generate');
+        $env->setKey('APP_NAME', $this->ask('Application name:', $env->getValue('APP_NAME')));
+        $env->setKey('APP_URL', $this->ask('Application URL:', $env->getValue('APP_URL')));
+        $env->save();
+        $this->info('Application settings saved successfully.');
+
+        $this->line('');
+        $this->line('Database settings:');
+        $env->setKey('DB_HOST', $this->ask('Database host:', $env->getValue('DB_HOST')));
+        $env->setKey('DB_PORT', $this->ask('Database port:', $env->getValue('DB_PORT')));
+        $env->setKey('DB_DATABASE', $this->ask('Database name:', $env->getValue('DB_DATABASE')));
+        $env->setKey('DB_USERNAME', $this->ask('Database user name:', $env->getValue('DB_USERNAME')));
+        $env->setKey('DB_PASSWORD', $this->ask('Database user password:', $env->getValue('DB_PASSWORD')));
+        $env->save();
+        $this->info('Database settings saved successfully.');
+
+        $this->line('');
+        $this->line('Database setup:');
+        $this->call('migrate:fresh', ['--seed']);
+        $this->info('Database successfully set up.');
+
+        $this->line('');
+        $this->line('Letterboxd settings:');
+        $env->setKey('LETTERBOXD_API_KEY', $this->ask('Letterboxd API key:', $env->getValue('LETTERBOXD_API_KEY')));
+        $env->setKey('LETTERBOXD_API_SECRET', $this->ask('Letterboxd API secret:', $env->getValue('LETTERBOXD_API_SECRET')));
+        $env->setKey('LETTERBOXD_USERNAME', $this->ask('Letterboxd username:', $env->getValue('LETTERBOXD_USERNAME')));
+        $env->setKey('LETTERBOXD_PASSWORD', $this->ask('Letterboxd password:', $env->getValue('LETTERBOXD_PASSWORD')));
+        $env->save();
+        $this->info('Letterboxd settings saved successfully.');
+
+        $this->line('');
+        $this->line('Administration user:');
         $adminEmail = $this->ask("Admin email:");
         $adminPassword = $this->secret('Admin password:');
         $adminName = $this->ask('Admin name:');
-
-        // Creates admin user
         $user = new User([
             'name'              => $adminName,
             'email'             => $adminEmail,
@@ -71,7 +104,9 @@ class NMInstall extends Command
             'email_verified_at' => Carbon::now()->timestamp,
         ]);
         $user->save();
+        $this->info('Administration user saved successfully.');
 
+        $this->line('');
         $this->info('System installed');
 
         return 0;
