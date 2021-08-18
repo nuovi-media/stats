@@ -21,7 +21,7 @@ return [
             [
                 'icon'    => 'fas fa-fw fa-database',
                 'text' => 'menu.administration.configuration.database._title',
-                'url'  => '#',
+                'url'  => 'route:admin.config.database',
             ],
             [
                 'icon'    => 'fas fa-fw fa-video',

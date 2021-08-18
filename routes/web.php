@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConfigController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,10 +21,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth'])->name('admin.')->prefix('admin')->group(function(){
-    Route::get('/', fn () => view('admin/welcome'));
+Route::middleware(['auth'])->name('admin.')->prefix('admin')->group(function () {
+    Route::get('/', fn() => view('admin/welcome'));
+    // Configuration routes
+    Route::get('config/database', [ConfigController::class, 'database'])->name('config.database');
+    Route::get('config/letterboxd', [ConfigController::class, 'letterboxd'])->name('config.letterboxd');
+    Route::put('config', [ConfigController::class, 'store'])->name('config.store');
+    Route::patch('config', [ConfigController::class, 'store']);
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
